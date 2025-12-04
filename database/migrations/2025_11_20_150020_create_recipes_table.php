@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+
+/*
+    This is the Recipe table in Relational Database. 
+
+*/
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('recipes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('instructions');
+            $table->integer('servings')->default(1);
+            $table->integer('prep_time_minutes')->nullable();
+            $table->integer('cook_time_minutes')->nullable();
+            $table->enum('difficulty', ['easy', 'medium', 'hard'])->default('medium');
+            $table->timestamps();
+            
+            // Indexes for performance
+            $table->index('name');
+            $table->index('difficulty');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('recipes');
+    }
+};
